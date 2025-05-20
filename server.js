@@ -4,8 +4,51 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware para servir arquivos estáticos da pasta "public"
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'cadastro'
+});
+db.connect((err) => {
+  if (err) {
+    console.error('Erro na conexão:', err);
+    return;
+  }
+  console.log('Conectado ao MySQL!');
+});
+//salvando dados no server
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+app.post('/salvar', upload.single('imagem'), (req, res) => {
+  const { nome, email, matricula, telefone, senha } = req.body;
+  const imagem = req.file ? req.file.filename : null;
+
+  bcrypt.hash(senha, saltRounds, (err, hash) => {
+    if (err) {
+      console.error('Erro ao criptografar senha:', err);
+      return res.status(500).send('Erro ao processar senha');
+    }
+
+    const sql = 'INSERT INTO usuarios (nome, email, matricula, telefone, senha, imagem) VALUES (?, ?, ?, ?, ?, ?)';
+    const valores = [nome, email, matricula, telefone, hash, imagem];
+
+    db.query(sql, valores, (err, result) => {
+      if (err) {
+        console.error('Erro ao salvar no banco:', err);
+        res.status(500).send('Erro ao salvar dados');
+      } else {
+        res.send('Usuário salvo com sucesso!');
+      }
+    });
+  });
+});
 // Rota principal (index)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

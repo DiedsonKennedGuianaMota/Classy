@@ -4,9 +4,27 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "body-parser": "^2.2.0",
+    "express": "^4.21.2",
+    "multer": "^2.0.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  }
+  },
+  "name": "classy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiedsonKennedGuianaMota/Classy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DiedsonKennedGuianaMota/Classy/issues"
+  },
+  "homepage": "https://github.com/DiedsonKennedGuianaMota/Classy#readme",
+  "description": ""
 }
