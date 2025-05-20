@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil</title>
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+<form action="cadastro.php" autocomplete="on" method="POST" enctype="multipart/form-data">
+  <div class="container">
+    
+    <!-- Coluna esquerda (Foto de perfil) -->
+    <div class="left" >
+      <div style="background-color: white; border-radius: 12px; padding: 40px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <img src="https://img.icons8.com/ios/150/000000/user-male-circle.png" alt="Foto de Perfil" style="width: 150px; height: 150px; margin-bottom: 15px;" id="preview" />
+        <label for="imagem" class="inputfoto">Selecionar Foto</label>
+          <input type="file" id="imagem" name="imagem" accept="image/*" onchange="mostrarImagem(event)" required/>
+          <p style="color: #555; font-size: 14px;">Carregue uma foto de perfil</p>
+      </div>
+    </div>
+
+    <!-- Coluna direita (Formulário) -->
+    <div class="right">
+      <div class="form-box">
+        <h2>Informações Pessoais</h2>
+        <div class="input-group" for="nome">
+          <input class="InputTxtCad" type="text" name="nome" id="nome" placeholder="Nome completo" 
+          required autocomplete="name"/>
+        </div>
+        <div class="input-group" for="email">
+          <input calss="InputTxtCad" type="email"  name="email" id="email" 
+          placeholder="Email institucional" required autocomplete="email"/>
+        </div>
+        <div class="input-group" for="matricula">
+          <input calss="InputTxtCad" type="number" name="matricula" id="matricula" placeholder="Matrícula" required minlength="0" maxlength="10"/>
+        </div>
+        <div calss="InputTxtCad" class="input-group" for="telefone">
+          <input calss="InputTxtCad" type="tel" name="telefone" id="telefone" placeholder="Telefone" required autocomplete="tel" pattern="\(\d{2}\) \d{5}-\d{4}" />
+        </div>
+       <div class="input-group" for="senha">
+        <input calss="InputTxtCad" type="password" name="senha" id=" senha" placeholder="Senha" autocomplete="current-password" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}"/>
+        <small style="color: #888; font-size: 12px; margin-top: 4px; display: block;">
+          A senha precisa de 8 caracteres, com maiúscula, minúscula, número e símbolo.
+        </small>
+      </div>
+      <div calss="InputTxtCad" class="input-group" for="confirmsenha">
+          <input type="password" id="confirmsenha" placeholder="Confirmar Senha" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}"/>
+          <small style="color: #888; font-size: 12px; margin-top: 4px; display: block;">
+          Para garantir que você digitou corretamente, por favor, repita a senha 
+      </div>
+        <input class="email-btn" type="submit" value="Continuar">
+      </div>
+    </div>
+</form>
+    <script>
+    const telefoneInput = document.getElementById("telefone");
+
+    telefoneInput.addEventListener("input", function (e) {
+      let input = e.target.value.replace(/\D/g, ""); // Remove tudo que não é dígito
+
+      if (input.length > 11) input = input.slice(0, 11); // Limita a 11 dígitos
+
+      let formatted = "";
+
+      if (input.length > 0) {
+        formatted += "(" + input.substring(0, 2);
+      }
+      if (input.length >= 3) {
+        formatted += ") " + input.substring(2, 7);
+      }
+      if (input.length >= 8) {
+        formatted += "-" + input.substring(7, 11);
+      }
+
+      e.target.value = formatted;
+    });
+     function mostrarImagem(event) {
+      const input = event.target;
+      const imagem = document.getElementById('preview');
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          imagem.src = e.target.result;
+          imagem.style.display = 'block';
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+  </div>
+</body>
+</html>
